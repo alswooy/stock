@@ -10,17 +10,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class StockApplication {
 
 	public static void main(String[] args) {
-//		SpringApplication.run(StockApplication.class, args);
+		SpringApplication.run(StockApplication.class, args);
 
-		for (int i = 0; i < 10; i++) {
-			System.out.println("hello -> "+i);
-			try{
-				Thread.sleep(1000);
-			}catch (InterruptedException e){
-				throw new RuntimeException(e);
-			}
+		System.out.println("Main -> "+Thread.currentThread().getName());
 
-		}
+
 
 	}
 

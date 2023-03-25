@@ -8,9 +8,14 @@ import com.dayone.persist.entity.CompanyEntity;
 import com.dayone.persist.entity.DividendEntity;
 import com.dayone.scraper.Scraper;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 import java.util.List;
+
+@Slf4j
 @Component
 @AllArgsConstructor
 public class ScraperScheduler {
@@ -18,16 +23,31 @@ public class ScraperScheduler {
     private final DividendRepository dividendRepository;
 
     private final Scraper yahooFinaceScraper;
-    @Scheduled(cron = "")
+
+    @Scheduled(fixedDelay = 1000)
+    public void test1() throws InterruptedException{
+        Thread.sleep(10000);
+        System.out.println(Thread.currentThread().getName()+" -> 테스트1 : "+ LocalDateTime.now());
+    }
+    @Scheduled(fixedDelay = 1000)
+    public void test2() throws InterruptedException{
+
+        System.out.println(Thread.currentThread().getName()+" ->테스트2 : "+ LocalDateTime.now());
+    }
+//    @Scheduled(cron = "${scheduler.scrap.yahoo}")
     public void yahooFinanceScheduling(){
+        log.info("scraping scheduler is started ");
         //저장된 회사 목록을 조회
         List< CompanyEntity> companies = this.companyRepository.findAll();
+
         //회사마다 배당금 정보를 새로 스크래핑
         for(var company : companies){
+            log.info("scraping scheduler is started -> "+company.getName());
             ScrapedResult scrapedResult = this.yahooFinaceScraper.scrap(Company.builder()
                                                                     .name(company.getName())
                                                                     .ticker(company.getTicker())
                                                                     .build());
+
 
             // 스크래핑한 배당금 정보중 데이터베이스에 없는 값은 저장
             scrapedResult.getDividends().stream()
@@ -44,7 +64,7 @@ public class ScraperScheduler {
             try {
                 Thread.sleep(3000);//3 seconds
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                Thread.currentThread().interrupt();
             }
 
         }
