@@ -1,8 +1,6 @@
 package com.dayone;
 
 import org.apache.commons.collections4.Trie;
-import org.apache.commons.collections4.trie.PatriciaTrie;
-import org.springframework.data.domain.Page;
 
 public class AutoComplete {
     private Trie trie;
