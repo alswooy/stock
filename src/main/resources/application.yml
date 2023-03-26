@@ -1,6 +1,6 @@
 spring:
   application:
-    name: dayone-financial
+    name: stock
 
   h2:
     console:
@@ -23,6 +23,9 @@ spring:
   redis:
     host: localhost
     port: 6379
+
+  jwt:
+    secret: emVyb2Jhc2UtOS15b29taW53b28tc3ByaW5nLWJvb3QtcHJvamVjdC1qd3Qtc2VjcmV0LWtleQ==
 
 scheduler:
   scrap:
