@@ -34,7 +34,7 @@ public class CompanyController {
         return ResponseEntity.ok(companies);
     }
 
-    @PostMapping
+    @PostMapping()
     @PreAuthorize("hasRole('WRITE')")
     public ResponseEntity<?> addCompany(@RequestBody Company request){
         String ticker = request.getTicker().trim();
